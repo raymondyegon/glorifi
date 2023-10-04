@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>star</title>
+    <g id="Rating" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="RTG-2-5" transform="translate(-205.000000, -34.000000)" fill="#616266">
+            <g id="Rating-/-Unselected-Copy-8" transform="translate(205.000000, 34.000000)">
+                <path d="M7.00014119,-1.90070182e-13 L9.09899934,4.69964467 L14,5.34698321 L10.39809,8.89848812 L11.3255958,14 L7.00014119,11.4955236 L2.67352177,14 L3.60191005,8.89848812 L0,5.34698321 L4.90043591,4.69964467 L7.00014119,-1.90070182e-13 Z M8.4138684,5.6178358 L7,2.451 L5.5854731,5.61783975 L2.158,6.07 L4.6803849,8.55751762 L4.044,12.051 L7.00020864,10.3400319 L9.954,12.05 L9.31969136,8.55744243 L11.841,6.07 L8.4138684,5.6178358 Z" id="AST:Shape-2-copy-3"></path>
+            </g>
+        </g>
+    </g>
+</svg>

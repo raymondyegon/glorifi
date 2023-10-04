@@ -1,0 +1,80 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+
+
+  desc "Deploy a new verion to Firebase"
+  lane :firebase_uat do
+
+  	#sh("git reset --hard")
+
+  	#Collect release notes - Manual
+	changelog = prompt(
+		text: "Release Notes: ",
+		multi_line_end_keyword: "END"
+	)
+
+    # latest_release = firebase_app_distribution_get_latest_release(
+    #   app: "1:844451946578:android:e4590f627259f1872a3f8b"
+    # )
+
+    #Update current build number
+	# next_build_number = latest_release[:buildVersion].to_i + 1
+	# update_regex = 's/^(version:\s+\d+\.\d+\.\d+\+)(\d+)$/$1.(' + next_build_number.to_s + ')/e'
+	# sh("perl -i -pe '#{update_regex}' ../../pubspec.yaml")
+
+    # Flutter generates new APK
+    sh("flutter build apk --dart-define=ENVIRONMENT=UAT --no-tree-shake-icons")
+
+
+    # Assuming you have authenticated with firebase-cli for authentication
+    firebase_app_distribution(
+      app: "1:844451946578:android:509e863cf8e7291d2a3f8b",
+      groups: "android-internal",
+      android_artifact_type: "APK",
+      android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
+      release_notes: changelog
+    )
+
+   # sh('git reset --hard')
+  end
+
+  desc "Deploy to firebase using Production environemnt"
+  lane :firebase_prod do
+
+    #Collect release notes - Manual
+    changelog = prompt(
+      text: "Release Notes: ",
+      multi_line_end_keyword: "END"
+    )
+    # Flutter generates new APK
+    sh("flutter build apk --dart-define=ENVIRONMENT=PROD --no-tree-shake-icons")
+
+
+    # Assuming you have authenticated with firebase-cli for authentication
+    firebase_app_distribution(
+      app: "1:844451946578:android:e4590f627259f1872a3f8b",
+      groups: "android-prod-beta",
+      android_artifact_type: "APK",
+      android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
+      release_notes: changelog
+    )
+
+   # sh('git reset --hard')
+  end
+end

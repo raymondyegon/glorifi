@@ -1,0 +1,29 @@
+{
+  "success": true,
+  "data": [
+    {
+      "name_first": "Weston",
+      "name_last": "Chambers",
+      "email_address": "chambers.weston@gmail.com",
+      "phone_number": "1231231234",
+      "birth_date": "2022-01-29",
+      "address_line_1": "12311",
+      "address_city": "null",
+      "address_state": "CO",
+      "address_postal_code": "80134",
+      "membership_since": "March 2020",
+      "membership_type": "Silver",
+      "address_country_code": "US",
+      "id": "30a2615e-6f2e-11ec-8887-00155d545bb1",
+      "member_status": "Approved",
+      "member_kyc_evaluation_token": "S-uES6XF96zX2w4UcIEXGG",
+      "member_kyc_entity_token": "P-QwDIzUG8TpxIFCf8JxAl",
+      "okta_id": "00u294h84jacohR501d7",
+      "okta_login": "chambers.weston@gmail.com",
+      "okta_email": "chambers.weston@gmail.com",
+      "member_id": 10374
+    }
+  ],
+  "status": "Success",
+  "message": "Successfully Fetched"
+}

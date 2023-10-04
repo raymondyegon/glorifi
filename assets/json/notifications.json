@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "message": "success notification",
+  "notification_data": [
+    {
+      "title": "Loyalty Update",
+      "description": "[Name], congrats on reaching Bronze status! Learn ways to earn more Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+      "timestamp": "3 day ago",
+      "isRead": false,
+      "image_url": "sadassfa"
+    } ,  {
+      "title": "Welcome to Glorifi",
+      "description": "Dear [Name], welcome to GloriFi! We cannot wait to help you reach your goals. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "timestamp": "5 day ago",
+      "isRead": true,
+      "image_url": "sadassfa"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+workflow:
+  rules:
+    - if: $ENVIRONMENT_ID == "UAT"
+      variables: 
+        AKEYLESS_PATHING: "UAT/GlorifiApp/Android"
+        MOBILE_BUILD_PROFILE: "UAT"
+    - if: $ENVIRONMENT_ID == "PROD"
+      variables:
+        AKEYLESS_PATHING: "Production"
+        MOBILE_BUILD_PROFILE: "PROD"
+
+
+variables:
+  ANDROID_BUILDER_IMAGE: animo-gitlab.southcentralus.cloudapp.azure.com:5050/glorifi/glorifi_app/flutter-image-android:1.0.3
+  AKEYLESS_SAML_ID: "p-6e8bd1u04b40"
+  FIREBASE_APP_ID: "1:844451946578:android:e4590f627259f1872a3f8b"
+  FIREBASE_GROUPS: "android-internal"
+
+stages:
+  - akeyless
+  - build-mobile
+  - deploy-mobile
+
+
+credentials:
+  stage: akeyless
+  image: 
+    name:  akeyless/ci_base
+  before_script:
+    - akeyless auth --access-id $AKEYLESS_SAML_ID --access-type jwt --jwt $CI_JOB_JWT
+  script:
+    - akeyless get-secret-value --name "$AKEYLESS_PATHING/Firebase/distribution-admin-sa" > service-account.json 
+  artifacts:
+    reports:
+      dotenv: build.env
+    paths: 
+      - service-account.json
+
+
+build-android:
+  stage: build-mobile  
+  image: ${ANDROID_BUILDER_IMAGE}
+  before_script:
+    - pip install google-auth google-auth-oauthlib google-api-python-client
+  script:
+    - cd android
+    - export APP_BUILD_NUMBER=$(python3 ../helper-scripts/mobile/python/BuildNumber.py)
+    - flutter build apk --dart-define=ENVIRONMENT=${MOBILE_BUILD_PROFILE} --no-tree-shake-icons --build-number ${APP_BUILD_NUMBER} 
+  artifacts:
+    paths:
+      - build/app/outputs/flutter-apk/app-release.apk
+
+
+deploy-firebase:
+  stage: deploy-mobile
+  image: ubuntu:jammy 
+  before_script:
+    - apt-get update  
+    - apt-get install -y curl bash sudo
+    - curl -sL https://firebase.tools | bash
+  script:
+    - firebase appdistribution:distribute --token ${FIREBASE_TEMPORARY_TOKEN} --app $FIREBASE_APP_ID --groups $FIREBASE_GROUPS build/app/outputs/flutter-apk/app-release.apk
+  artifacts:
+    paths:
+      - build/app/outputs/flutter-apk/app-release.apk

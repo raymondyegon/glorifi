@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Components/Check_box_unchecked</title>
+    <g id="Components/Check_box_unchecked" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M8.63636364,0 L1.36363636,0 C0.610520796,0 0,0.610520796 0,1.36363636 L0,8.63636364 C0,9.3894792 0.610520796,10 1.36363636,10 L8.63636364,10 C9.3894792,10 10,9.3894792 10,8.63636364 L10,1.36363636 C10,0.610520796 9.3894792,0 8.63636364,0 Z M1.44444444,1 L8.55555556,1 C8.80101544,1 9,1.19898456 9,1.44444444 L9,8.55555556 C9,8.80101544 8.80101544,9 8.55555556,9 L1.44444444,9 C1.19898456,9 1,8.80101544 1,8.55555556 L1,1.44444444 C1,1.19898456 1.19898456,1 1.44444444,1 Z" id="Rectangle" fill="#2A3662" fill-rule="nonzero"></path>
+    </g>
+</svg>

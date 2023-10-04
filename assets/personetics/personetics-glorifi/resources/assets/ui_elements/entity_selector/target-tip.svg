@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="5px" viewBox="0 0 10 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>target-tip</title>
+    <g id="Goal-Block" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M10,0 C10,0 10,1.66666667 10,5 L0,5 C4.27388617,4.16695271 7.60721951,2.50028604 10,0 Z" id="target-tip" fill="#0275BE"></path>
+    </g>
+</svg>

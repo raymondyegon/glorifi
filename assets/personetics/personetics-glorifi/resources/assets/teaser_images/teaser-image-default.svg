@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="280px" height="70px" viewBox="0 0 280 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>teaser-image-default</title>
+    <defs>
+        <linearGradient x1="0%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#D1D1D1" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="teaser-image-default" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Story-image-default" transform="translate(20.000000, 15.000000)" fill="url(#linearGradient-1)" fill-rule="nonzero">
+            <rect id="Rectangle" x="0" y="0" width="241" height="56"></rect>
+        </g>
+        <path d="M140.5,22 C151.821591,22 161,31.178409 161,42.5 C161,53.821591 151.821591,63 140.5,63 C129.178409,63 120,53.821591 120,42.5 C120,31.178409 129.178409,22 140.5,22 Z M140,26 C130.602778,26 123,33.6027777 123,43 C123,52.3972223 130.602778,60 140,60 C149.397222,60 157,52.3972223 157,43 C157,33.6027777 149.397222,26 140,26 Z M140,49 C141.10457,49 142,49.8954305 142,51 C142,52.1045695 141.10457,53 140,53 C138.89543,53 138,52.1045695 138,51 C138,49.8954305 138.89543,49 140,49 Z M140,32 C141.1,32 142,32.8129032 142,33.8064516 L142,33.8064516 L142,44.1935484 C142,45.1870968 141.1,46 140,46 C138.9,46 138,45.1870968 138,44.1935484 L138,44.1935484 L138,33.8064516 C138,32.8129032 138.9,32 140,32 Z" id="Combined-Shape-Copy-2" fill="#FFFFFF" fill-rule="nonzero"></path>
+    </g>
+</svg>

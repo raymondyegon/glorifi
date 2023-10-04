@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="5px" viewBox="0 0 10 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>amount-tip-right</title>
+    <g id="Goal-Block" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Assets-v3" transform="translate(-20.000000, -28.000000)" fill="#2C375F">
+            <path d="M30,28 C30,28 30,29.6666667 30,33 L20,33 C24.2738862,32.1669527 27.6072195,30.500286 30,28 Z" id="amount-tip-right" transform="translate(25.000000, 30.500000) scale(1, -1) translate(-25.000000, -30.500000) "></path>
+        </g>
+    </g>
+</svg>

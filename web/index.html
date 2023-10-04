@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Glorifi">
+
+  <title>Glorifi</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+  <link rel="stylesheet" href="loader.css">
+  <link rel="stylesheet" type="text/css" href="splash/style.css">
+  <!-- <script type="text/javascript" src="okta.js"></script> -->
+  <script src="https://global.oktacdn.com/okta-auth-js/6.6.2/okta-auth-js.min.js" type="text/javascript"></script>
+  <!-- https://global.oktacdn.com/okta-auth-js/6.6.2/okta-auth-js.polyfill.js -->
+  <!-- https://global.oktacdn.com/okta-auth-js/6.6.2/okta-auth-js.min.js -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+
+  <!-- Latest CDN production JavaScript and CSS -->
+  <script src="https://global.oktacdn.com/okta-signin-widget/6.2.0/js/okta-sign-in.min.js"
+    type="text/javascript"></script>
+  <link href="https://global.oktacdn.com/okta-signin-widget/6.2.0/css/okta-sign-in.min.css" type="text/css"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <picture id="splash">
+    <source srcset="splash/img/glorifi1x.png 1x, splash/img/glorifi2x.png 2x, splash/img/glorifi3x.png 3x"
+      media="(prefers-color-scheme: light) or (prefers-color-scheme: no-preference)">
+    <source srcset="splash/img/glorifi1x.png 1x, splash/img/glorifi2x.png 2x, splash/img/glorifi3x.png 3x"
+      media="(prefers-color-scheme: dark)">
+    <img class="center" src="splash/img/glorifi3x.png" />
+    <div class="spinner spinnerCenter" />
+  </picture>
+  <!--  <div class="spinner spinnerCenter"></div>-->
+  <script>
+    var serviceWorkerVersion = null;
+    var scriptLoaded = false;
+    var signIn;
+    async function loadMainDartJs() {
+      if (scriptLoaded) {
+        return;
+      }
+      scriptLoaded = true;
+      var scriptTag = document.createElement('script');
+      scriptTag.src = 'main.dart.js?version=1.0.0';
+      scriptTag.type = 'application/javascript';
+      document.body.append(scriptTag);
+
+      console.log("Initializing token refresh interval");
+      setInterval(syncContent, 60 * 1000);
+    }
+
+    async function syncContent() {
+      signIn = new OktaSignIn(JSON.parse(window.localStorage.getItem("options")));
+      signIn.authClient.start();
+      try {
+        console.log('refreshing token:', new Date());
+        const tokens = await signIn.authClient.token.getWithoutPrompt();
+        var acToken = tokens.tokens.accessToken.accessToken;
+
+        console.log('successfully received accessToken:', acToken);
+        window.localStorage.setItem('flutter.token', JSON.stringify(acToken));
+      } catch (error) {
+        console.error('error in refreshing token', error);
+      }
+    }
+
+    if ('serviceWorker' in navigator) {
+      // Service workers are supported. Use them.
+      window.addEventListener('load', function () {
+        // Wait for registration to finish before dropping the <script> tag.
+        // Otherwise, the browser will load the script multiple times,
+        // potentially different versions.
+        var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+        navigator.serviceWorker.register(serviceWorkerUrl)
+          .then((reg) => {
+            function waitForActivation(serviceWorker) {
+              serviceWorker.addEventListener('statechange', () => {
+                if (serviceWorker.state == 'activated') {
+                  console.log('Installed new service worker.');
+                  loadMainDartJs();
+                }
+              });
+            }
+            if (!reg.active && (reg.installing || reg.waiting)) {
+              // No active web worker and we have installed or are installing
+              // one for the first time. Simply wait for it to activate.
+              waitForActivation(reg.installing || reg.waiting);
+            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
+              // When the app updates the serviceWorkerVersion changes, so we
+              // need to ask the service worker to update.
+              console.log('New service worker available.');
+              reg.update();
+              waitForActivation(reg.installing);
+            } else {
+              // Existing service worker is still good.
+              console.log('Loading app from service worker.');
+              loadMainDartJs();
+            }
+          });
+        // navigator.serviceWorker.register("okta_service_worker.js");
+        // If service worker doesn't succeed in a reasonable amount of time,
+        // fallback to plaint <script> tag.
+        setTimeout(() => {
+          if (!scriptLoaded) {
+            console.warn(
+              'Failed to load app from service worker. Falling back to plain <script> tag.',
+            );
+            loadMainDartJs();
+          }
+        }, 4000);
+      });
+    } else {
+      // Service workers not supported. Just drop the <script> tag.
+      loadMainDartJs();
+    }
+  </script>
+  <script>
+    function listenOnDevicePixelRatio() {
+      function onChange() {
+        console.log("devicePixelRatio changed: " + window.devicePixelRatio);
+        window.location.reload();
+        listenOnDevicePixelRatio();
+      }
+      matchMedia(
+        `(resolution: ${window.devicePixelRatio}dppx)`
+      ).addEventListener("change", onChange, { once: true });
+    }
+    listenOnDevicePixelRatio();
+  </script>
+  <script src="main.dart.js?version=1.0.0" type="application/javascript"
+    onendload="document.getElementById('loader').remove();">
+    </script>
+</body>
+
+</html>

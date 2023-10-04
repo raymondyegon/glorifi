@@ -1,0 +1,70 @@
+{
+  "total_amount": "2110.00",
+  "as_of_date": "2022-02-22 16:37:13.525698",
+  "assets": {
+    "checking_accounts": [
+      {
+        "acct_name": "Plaid Checking",
+        "acct_label": "Checking",
+        "acct_balance": "110.00"
+      },
+      {
+        "acct_name": "Plaid Checking",
+        "acct_label": "Checking",
+        "acct_balance": "110.00"
+      }
+    ],
+    "savings_accounts": [
+      {
+        "acct_name": "Plaid Saving",
+        "acct_label": "Savings",
+        "acct_balance": "210.00"
+      },
+      {
+        "acct_name": "Plaid Saving",
+        "acct_label": "Savings",
+        "acct_balance": "210.00"
+      },
+      {
+        "acct_name": "Plaid Saving",
+        "acct_label": "Savings",
+        "acct_balance": "210.00"
+      },
+      {
+        "acct_name": "Plaid Saving",
+        "acct_label": "Savings",
+        "acct_balance": "210.00"
+      },
+      {
+        "acct_name": "Plaid Saving",
+        "acct_label": "Savings",
+        "acct_balance": "210.00"
+      },
+      {
+        "acct_name": "Plaid Saving",
+        "acct_label": "Savings",
+        "acct_balance": "210.00"
+      },
+      {
+        "acct_name": "Plaid Saving",
+        "acct_label": "Savings",
+        "acct_balance": "210.00"
+      },
+      {
+        "acct_name": "Plaid Saving",
+        "acct_label": "Savings",
+        "acct_balance": "210.00"
+      },
+      {
+        "acct_name": "Plaid Saving",
+        "acct_label": "Savings",
+        "acct_balance": "210.00"
+      }
+    ]
+  },
+  "liabilities": {
+    "credit_accounts": [],
+    "installment_accounts": [],
+    "other_liabilities": []
+  }
+}

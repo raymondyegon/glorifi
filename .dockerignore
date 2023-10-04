@@ -1,0 +1,16 @@
+# Exclude everything by default
+*
+
+# Only include
+!.metadata
+!analysis_options.yaml
+!android
+!assets
+!entrypoint.sh
+!firebase.json
+!ios
+!l10n.yaml
+!lib
+!nginx
+!pubspec.yaml
+!web

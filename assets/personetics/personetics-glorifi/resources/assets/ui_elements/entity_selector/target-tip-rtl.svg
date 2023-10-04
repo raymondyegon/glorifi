@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="5px" viewBox="0 0 10 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>target-tip-RTL</title>
+    <g id="Goal-Block" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Assets-v3" transform="translate(-39.000000, -19.000000)" fill="#0275BE">
+            <path d="M49,19 C49,19 49,20.6666667 49,24 L39,24 C43.2738862,23.1669527 46.6072195,21.500286 49,19 Z" id="target-tip-RTL" transform="translate(44.000000, 21.500000) scale(-1, 1) translate(-44.000000, -21.500000) "></path>
+        </g>
+    </g>
+</svg>

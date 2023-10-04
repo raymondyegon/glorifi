@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="5px" viewBox="0 0 10 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>percent-tip-right-dm</title>
+    <g id="Dark-mode" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="dark-mode-assets-v3" transform="translate(-43.000000, -37.000000)" fill="#FFFFFF">
+            <path d="M53,37 C53,37 53,38.6666667 53,42 L43,42 C47.2738862,41.1669527 50.6072195,39.500286 53,37 Z" id="percent-tip-right-dm" transform="translate(48.000000, 39.500000) scale(1, -1) translate(-48.000000, -39.500000) "></path>
+        </g>
+    </g>
+</svg>

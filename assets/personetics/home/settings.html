@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1, maximum-scale=1" />
+
+        <!-- bank third party scripts -->
+        <script src="js/jquery-3.5.1.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="css/settings.css" />
+
+        <script type="text/javascript" src="js/settings.js"></script>
+    </head>
+    <body>
+        <div style="max-width: 470px; margin: auto">
+            <div class="advanced-settings-title" aria-label="advanced-settings">
+                <div role="text" class="title">advanced settings</div>
+                <a
+                    href="login.html"
+                    aria-label="close advanced settings button, tap to close advanced settings"
+                    aria-role="text"
+                    type="button"
+                    class="close-button"
+                ></a>
+            </div>
+            <form class="settings-container">
+                <div id="dark-mode">
+                    <div class="switch">
+                        <input type="checkbox" id="darkMode" data-feature="dark-mode" />
+                        <label for="darkMode">
+                            <span>Dark Mode</span>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div id="remote-assets">
+                    <div class="switch">
+                        <input type="checkbox" data-feature="remote-assets" id="useRemoteAssets" />
+                        <label for="useRemoteAssets">
+                            <span>Remote assets</span>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="assets-url">
+                        <label id="baseUrl-label" for="baseUrl">Assets URL</label>
+                        <input
+                            id="baseUrl"
+                            data-feature="remote-assets"
+                            value="https://client-vanilla-assets.s3.amazonaws.com/product-assets/assets"
+                            type="text"
+                        />
+                    </div>
+                </div>
+                <div id="context-id">
+                    <div class="context-id">
+                        <label id="contextId-label" for="ctxId">ctxId</label>
+                        <input id="ctxId" data-feature="context-id" value="dashboard" type="text" />
+                    </div>
+                </div>
+                <div id="theme">
+                    <div class="switch">
+                        <input type="checkbox" data-feature="theme" id="adjustableColoring" />
+                        <label for="adjustableColoring">
+                            <span>adjustable-coloring</span>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="colors">
+                        <label id="headerColor-label" for="headerColor">Header color</label>
+                        <input id="headerColor" data-feature="theme" value="" type="text" />
+                        <label id="outflowColor-label" for="outflowColor">Outflow color</label>
+                        <input id="outflowColor" data-feature="theme" value="" type="text" />
+                        <label id="brandColor-label" for="brandColor">Brand color</label>
+                        <input id="brandColor" data-feature="theme" value="" type="text" />
+                        <label id="inflowColor-label" for="inflowColor">Inflow color</label>
+                        <input id="inflowColor" data-feature="theme" value="" type="text" />
+                        <label id="pickerColor-label" for="pickerColor">Picker dark</label>
+                        <input id="pickerColor" data-feature="theme" value="" type="text" />
+                        <label id="datesColor-label" for="datesColor">Dates</label>
+                        <input id="datesColor" data-feature="theme" value="" type="text" />
+                        <label id="alertColor-label" for="alertColor">Alert color</label>
+                        <input id="alertColor" data-feature="theme" value="" type="text" />
+                    </div>
+                </div>
+                <input type="reset" value="Reset" />
+            </form>
+        </div>
+    </body>
+</html>

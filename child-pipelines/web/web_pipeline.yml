@@ -1,0 +1,62 @@
+workflow:
+  rules:
+    - if: $ENVIRONMENT_ID == "UAT"
+      variables: 
+        IMAGE_TAG_ENV: "UAT"
+    - if: $ENVIRONMENT_ID == "PROD"
+      variables:
+        IMAGE_TAG_ENV: "PROD"
+ 
+
+variables:
+    PLACEHOLDER_VAR: "empty" 
+    AKEYLESS_SAML_ID: "p-6e8bd1u04b40"
+
+stages:
+  - akeyless
+  - build
+
+
+credentials:
+  stage: akeyless
+  image: 
+    name:  akeyless/ci_base
+  before_script:
+    - export token=akeyless://DevOps/Test/DevOps
+    - akeyless auth --access-id $AKEYLESS_SAML_ID --access-type jwt --jwt $CI_JOB_JWT
+    - source ~/.akeyless/akeyless_env.sh
+  script:
+    - echo "AZURE_TOKEN=[$token]" >> build.env
+  artifacts:
+    reports:
+        dotenv: build.env
+
+
+build-web:
+  stage: build
+  image: docker:19.03.13
+  services:
+    - docker:19.03.13-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+    GIT_SSL_NO_VERIFY: "true"
+    GIT_STRATEGY: clone
+    GIT_SUBMODULE_STRATEGY: recursive
+    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+    AZURE_REGISTRY: acrapp.azurecr.io
+    IMAGE_NAME: flutter-web
+    IMAGE_TAG: ${CI_COMMIT_TAG}-$IMAGE_TAG_ENV
+  before_script:
+    - docker login acrapp.azurecr.io -u $ACR_USER -p $ACR_PASSWORD
+  script:
+    - echo "Building web image for $ENVIRONMENT_ID environment"
+    # Build image with commit SHA
+    - docker build -f web.Dockerfile --build-arg ENVIRONMENT_ID=$ENVIRONMENT_ID -t $AZURE_REGISTRY/$CI_PROJECT_NAME/$IMAGE_NAME:$IMAGE_TAG .
+    # Retag last as latest
+    - IMAGE_ID=$(docker images | grep $AZURE_REGISTRY/$CI_PROJECT_NAME\/$IMAGE_NAME | awk '{print $3}')
+    - docker tag $IMAGE_ID $AZURE_REGISTRY/$CI_PROJECT_NAME/$IMAGE_NAME:latest
+    # Push both images
+    - docker push $AZURE_REGISTRY/$CI_PROJECT_NAME/$IMAGE_NAME:$IMAGE_TAG
+    - docker push $AZURE_REGISTRY/$CI_PROJECT_NAME/$IMAGE_NAME:latest

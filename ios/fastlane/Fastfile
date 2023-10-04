@@ -1,0 +1,176 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+
+platform :ios do |options|
+
+	desc "Set build/signing settings for a release target when running the ios Gitlab pipeline on the MacMini agent"
+	lane :release_settings_for_pipeline do
+
+		update_code_signing_settings(
+			use_automatic_signing: false,
+			path: "Runner.xcodeproj",
+			team_id: "8XUGR9Y772",
+			bundle_identifier: "com.glorifi.beta",
+			profile_name: "MacMini Testflight beta profiled",
+			code_sign_identity: "iPhone Distribution: Animo Services LLC (8XUGR9Y772)"
+		)
+		# Note: When updating the values for the keys be careful of whitespace. Example: profile_name: "MacMini Testflight beta profiled" is different from profile_name: "MacMini Testflight beta profiled "
+	end
+
+
+
+
+	desc "Deploy to Firebase"
+	lane :deploy_firebase do
+
+		latest_release = firebase_app_distribution_get_latest_release(
+			app: "1:844451946578:ios:ff1e96cf28202f5a2a3f8b"
+		)
+
+		changelog = prompt(
+			text: "Release Notes: ",
+			multi_line_end_keyword: "END"
+		)
+
+	  	# Flutter generates new IPA
+	  	sh("flutter build ipa --dart-define=ENVIRONMENT=UAT --build-number #{latest_release[:buildVersion].to_i + 1} --no-tree-shake-icons --export-options-plist ios/fastlane/ExportOptions.plist")
+
+
+		# # Assuming you have authenticated with firebase-cli for authentication
+		firebase_app_distribution(
+			app: "1:844451946578:ios:ff1e96cf28202f5a2a3f8b",
+			groups: "ios-internal",
+			ipa_path: "../build/ios/ipa/GloriFi.ipa",
+			release_notes: changelog
+			)
+	end
+
+	desc "Deploy to more Firebase"
+	lane :deploy_firebase2 do
+				latest_release = firebase_app_distribution_get_latest_release(
+			app: "1:844451946578:ios:03a5d0b5bea462432a3f8b"
+		)
+
+		changelog = prompt(
+			text: "Release Notes: ",
+			multi_line_end_keyword: "END"
+		)
+
+	  	# Flutter generates new IPA
+	  	sh("flutter build ipa --dart-define=ENVIRONMENT=UAT --build-number #{latest_release[:buildVersion].to_i + 1} --no-tree-shake-icons --export-options-plist ios/fastlane/ExportOptions2.plist")
+	  	#sh("flutter build ipa --build-number 50 --no-tree-shake-icons --export-options-plist ios/fastlane/ExportOptions2.plist")
+
+
+		# # Assuming you have authenticated with firebase-cli for authentication
+		firebase_app_distribution(
+			app: "1:844451946578:ios:03a5d0b5bea462432a3f8b",
+			groups: "ios-internal-2",
+			ipa_path: "../build/ios/ipa/GloriFi.ipa",
+			release_notes: changelog
+			)
+
+	end
+
+	desc "Deploy Beta to TestFlight"
+	lane :beta do
+		# sh("git reset --hard")
+		# sh("git stash list")
+		# stashNumber = prompt(
+		# 	text: "Pick yo stash",
+		# )
+		# sh("git stash apply stash@{#{stashNumber}}")
+
+		
+		# update_regex = 's/^(version:\s+\d+\.\d+\.\d+\+)(\d+)$/$1.($2+1)/e'
+		# sh("perl -i -pe '#{update_regex}' ../../pubspec.yaml")
+
+		# update_app_identifier(
+		#   xcodeproj: "Runner.xcodeproj", # Optional path to xcodeproj, will use the first .xcodeproj if not set
+		#   plist_path: "Runner/Info.plist", # Path to info plist file, relative to xcodeproj
+		#   app_identifier: "com.glorifi.beta" # The App Identifier
+		# )
+
+		# update_project_team(
+		#   path: "Runner.xcodeproj",
+		#   teamid: "8XUGR9Y772"
+		# )
+		sh("flutter build ipa --dart-define=ENVIRONMENT=UAT --export-options-plist ios/fastlane/BetaExportOptions.plist")
+		api_key = app_store_connect_api_key()
+		#pilot(ipa: "../build/ios/ipa/GloriFi.ipa")
+		pilot( api_key: api_key, ipa: "../build/ios/ipa/GloriFi.ipa")
+	end
+
+	desc "Deploy to both Firebase groups"
+	lane :deploy_both_firebase do
+
+		sh("git reset --hard")
+
+		#Collect release notes - Manual
+		changelog = prompt(
+			text: "Release Notes: ",
+			multi_line_end_keyword: "END"
+		)
+
+		sh("git stash list")
+		stashNumber = prompt(
+			text: "Pick yo stash",
+		)
+
+		#Fetch current build number
+		latest_release = firebase_app_distribution_get_latest_release(
+			app: "1:844451946578:ios:ff1e96cf28202f5a2a3f8b"
+		)
+		#Update current build number
+		next_build_number = latest_release[:buildVersion].to_i + 1
+		update_regex = 's/^(version:\s+\d+\.\d+\.\d+\+)(\d+)$/$1.(' + next_build_number.to_s + ')/e'
+		sh("perl -i -pe '#{update_regex}' ../../pubspec.yaml")
+
+		#Build for group 1
+		sh("flutter build ipa --dart-define=ENVIRONMENT=UAT --no-tree-shake-icons --export-options-plist ios/fastlane/ExportOptions.plist")
+
+		#Deploy for group 1
+		firebase_app_distribution(
+			app: "1:844451946578:ios:ff1e96cf28202f5a2a3f8b",
+			groups: "ios-internal",
+			ipa_path: "../build/ios/ipa/GloriFi.ipa",
+			release_notes: changelog
+		)
+
+		#Purge working
+		sh('git reset --hard')
+
+		#Apply temp3 stash
+		# TODO: Must be a better way to do this part
+		sh("git stash apply stash@{#{stashNumber}}")
+		#Update current build number
+		sh("perl -i -pe '#{update_regex}' ../../pubspec.yaml")
+		#Build for group 2
+		sh("flutter build ipa --dart-define=ENVIRONMENT=UAT --no-tree-shake-icons --export-options-plist ios/fastlane/ExportOptions2.plist")
+
+		#Deploy group 2
+		firebase_app_distribution(
+			app: "1:844451946578:ios:03a5d0b5bea462432a3f8b",
+			groups: "ios-internal-2",
+			ipa_path: "../build/ios/ipa/GloriFi.ipa",
+			release_notes: changelog
+		)
+		#Purge working
+		sh('git reset --hard')
+
+	end
+end

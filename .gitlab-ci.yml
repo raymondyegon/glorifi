@@ -1,0 +1,141 @@
+# Reusable section for adding jobs to the pipeline only when there is a tag set on a commit. TODO: Maybe there is a better way to do this with some job defaults
+.run-always-on-tag:
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^[0-9]+\.[0-9]+\.[0-9]/
+
+
+# Reusable sections for jobs which depend on environments
+.uat-job-config:
+  stage: build and deploy
+  rules:
+    - if: $CI_COMMIT_TAG =~ /[0-9]*\.[0-9]*\.[0-9]*/ 
+      variables:
+        ENVIRONMENT_ID: "UAT"
+        
+.prod-job-config:
+  stage: build and deploy
+  rules:
+    - if: $CI_COMMIT_TAG =~ /[0-9]*\.[0-9]*\.[0-9]*/ 
+      variables:
+        ENVIRONMENT_ID: "PROD"
+      when: manual
+
+stages:
+- code analysis 
+- test
+- build and deploy
+- release
+
+sonarqube:
+  extends: .run-always-on-tag
+  stage: code analysis
+  script:
+    - echo "Here will be code static analysis when Sonarqube supports flutter"
+
+
+quality:
+  extends: .run-always-on-tag
+  stage: test
+  image: "cirrusci/flutter:stable"
+  before_script:
+    - flutter pub global activate dart_code_metrics
+    - export PATH="$PATH:$HOME/.pub-cache/bin"
+  script:
+    - metrics lib -r codeclimate  > gl-code-quality-report.json
+  artifacts:
+    reports:
+      codequality: gl-code-quality-report.json
+
+
+flutter-test:
+  extends: .run-always-on-tag
+  stage: test
+  image: "cirrusci/flutter:stable"
+  before_script:
+    - flutter pub global activate junitreport
+    - export PATH="$PATH:$HOME/.pub-cache/bin"
+  script:
+    - flutter test --machine --coverage | tojunit -o report.xml
+    - lcov --summary coverage/lcov.info
+    - genhtml coverage/lcov.info --output=coverage
+  coverage: '/lines\.*: \d+\.\d+\%/'
+  artifacts:
+    name: coverage
+    paths:
+      - $CI_PROJECT_DIR/coverage
+    reports:
+      junit: report.xml
+
+
+android-uat: 
+  extends: .uat-job-config
+  trigger:
+    include: child-pipelines/mobile/android_pipeline.yml
+
+# android-prod: 
+#   extends: .prod-job-config
+#   trigger:
+#     include: child-pipelines/mobile/android_pipeline.yml
+
+
+iOS-uat: 
+  extends: .uat-job-config
+  trigger:
+    include: child-pipelines/mobile/ios_pipeline.yml
+    strategy: depend
+
+# iOS-prod: 
+#   extends: .prod-job-config
+#   trigger:
+#     include: child-pipelines/mobile/ios_pipeline.yml  
+
+web-uat: 
+  extends: .uat-job-config
+  trigger:
+    include: child-pipelines/web/web_pipeline.yml
+
+# web-prod: 
+#   extends: .prod-job-config
+#   trigger:
+#     include: child-pipelines/web/web_pipeline.yml
+
+
+prepare-release:
+  extends: .run-always-on-tag
+  image: "alpine/git:user"
+  stage: release
+  script:
+    - echo '## Changelog' >> CHANGELOG.md
+    - git tag -l -n9 $CI_COMMIT_TAG >> CHANGELOG.md
+    - echo -e '\n## Commits' >> CHANGELOG.md
+    - git log --pretty="- %s (%h)" $(git tag --sort=-creatordate | grep -E '^\d+.\d+.\d+$' | head -2)...$(git tag --sort=-creatordate | head -1) >> CHANGELOG.md
+    - echo -e '\n## Merges' >> CHANGELOG.md
+    - git log --merges --pretty="- %s (%h)" $(git tag --sort=-creatordate | grep -E '^\d+.\d+.\d+$' | head -2)...$(git tag --sort=-creatordate | head -1) >> CHANGELOG.md
+    - echo -e '\n## AUTHORS' >> CHANGELOG.md
+    - git log --pretty="- %an%n- %cn" $(git tag --sort=-creatordate | grep -E '^\d+.\d+.\d+$' | head -2)...$(git tag --sort=-creatordate | head -1) | sort | uniq >> CHANGELOG.md
+  artifacts:
+    paths:
+      - CHANGELOG.md
+
+create-release:
+  extends: .run-always-on-tag
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  stage: release
+  needs:
+    - job: prepare-release
+      artifacts: true
+  artifacts:
+    paths:
+      - CHANGELOG.md
+    expire_in: never
+  script:
+    - echo "Creating release ${CI_COMMIT_TAG}..."
+  release:
+    name: 'Release $CI_COMMIT_TAG'
+    description: CHANGELOG.md
+    tag_name: $CI_COMMIT_TAG
+    ref: '$CI_COMMIT_TAG'
+
+
+
+

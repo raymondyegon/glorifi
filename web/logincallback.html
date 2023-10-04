@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- Latest CDN production JavaScript and CSS -->
+    <script src="https://global.oktacdn.com/okta-signin-widget/6.2.0/js/okta-sign-in.min.js"
+            type="text/javascript"></script>
+    <link href="https://global.oktacdn.com/okta-signin-widget/6.2.0/css/okta-sign-in.min.css" type="text/css"
+          rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('document is ready');
+            var url = window.location.href;
+            console.log(url);
+            console.log(location.hash.split('access_token=')[1].split('&')[0]);
+            console.log('****************************************************');
+            console.log(location.hash.split('id_token=')[1].split('&')[0]);
+            const callbackUrl = localStorage.getItem('env');
+            window.location.replace(callbackUrl+'/users/callback?access_token=' + location.hash.split('access_token=')[1].split('&')[0] + '&id_token=' + location.hash.split('id_token=')[1].split('&')[0]);
+        });
+    </script>
+</body>
+<div class="center-screen">Waiting...</div>
+
+</html>

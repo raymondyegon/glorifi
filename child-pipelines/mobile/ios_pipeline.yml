@@ -1,0 +1,67 @@
+workflow:
+  rules:
+    - if: $ENVIRONMENT_ID == "UAT"
+      variables: 
+        AKEYLESS_PATHING: "UAT"
+        MOBILE_BUILD_PROFILE: "UAT"
+    - if: $ENVIRONMENT_ID == "PROD"
+      variables:
+        AKEYLESS_PATHING: "Production"
+        MOBILE_BUILD_PROFILE: "PROD"
+
+
+variables:
+    AKEYLESS_SAML_ID: "p-6e8bd1u04b40"
+
+
+stages:
+  - akeyless
+  - build
+#  - deploy
+
+
+credentials:
+  stage: akeyless
+  image: 
+    name:  akeyless/ci_base
+  before_script:
+    - export token=akeyless://DevOps/Test/DevOps
+    - akeyless auth --access-id $AKEYLESS_SAML_ID --access-type jwt --jwt $CI_JOB_JWT
+    - source ~/.akeyless/akeyless_env.sh
+  script:
+    - echo "FIREBASE_SA_TOKEN=[$token]" >> build.env
+  artifacts:
+    reports:
+        dotenv: build.env
+
+
+build-ios:
+  tags: 
+    - "ios"
+  stage: build
+  before_script:
+    - cd ios
+    - export LC_ALL=en_US.UTF-8
+    - export LANG=en_US.UTF-8
+    - flutter clean 
+    - xcodebuild clean
+    - fastlane release_settings_for_pipeline
+  script:
+    - flutter build ipa --dart-define=ENVIRONMENT=$MOBILE_BUILD_PROFILE --export-options-plist ios/fastlane/Pipeline.plist
+  artifacts:
+    paths:
+      - build/ios/ipa/GloriFi.ipa
+
+
+# deploy-testflight:
+#   tag: 
+#   - "ios"
+#   stage: deploy-mobile
+#   script:
+#     - fastlane beta
+#   artifacts:
+#     paths:
+#       - build/ios/ipa/GloriFi.ipa
+
+
+

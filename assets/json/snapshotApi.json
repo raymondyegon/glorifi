@@ -1,0 +1,182 @@
+{
+  "cash_on_hand": {
+    "card_id": 1,
+    "title": "Cash On Hand",
+    "description": "Total amount of all available cash.",
+    "current": 9852.68,
+    "as_of_date": "2022-01-28",
+    "historical": {
+      "2022-01-17": 9509.03,
+      "2022-01-06": 9110.01,
+      "2021-12-26": 8937.23,
+      "2021-12-15": 8508.2
+    }
+  },
+  "net_worth": {
+    "card_id": 2,
+    "title": "Net Worth",
+    "description": "Value of all assets, minus the total amount of liabilities.",
+    "current": 695520.02,
+    "as_of_date": "2022-01-28",
+    "historical": {
+      "2022-01-17": 691952.26,
+      "2022-01-06": 693749.26,
+      "2021-12-26": 695462.85,
+      "2021-12-15": 692681.34,
+      "2021-12-04": 692220.69,
+      "2021-11-23": 689474.91,
+      "2021-11-12": 685694.43,
+      "2021-11-01": 684014.26
+    }
+  },
+  "total_debt": {
+    "card_id": 3,
+    "title": "Total Debt",
+    "description": "Sum of all short and long term debt.",
+    "current": 112250.41,
+    "as_of_date": "2022-01-28",
+    "historical": {
+      "2022-01-17": 116181.06,
+      "2022-01-06": 115004.86,
+      "2021-12-26": 108678.02,
+      "2021-12-15": 108064.12,
+      "2021-12-04": 100306.38,
+      "2021-11-23": 103580.63,
+      "2021-11-12": 94129.26,
+      "2021-11-01": 84902.23,
+      "2021-10-21": 76192.88,
+      "2021-10-10": 77371.81
+    }
+  },
+  "credit_score": {
+    "card_id": 4,
+    "title": "Credit Score",
+    "description": "Number between 300–850 that depicts a consumer's creditworthiness.",
+    "score": 809,
+    "bucket": "Exceptional",
+    "as_of_date": "2022-01-28",
+    "historical": {
+      "2022-01-17": 796,
+      "2022-01-06": 789,
+      "2021-12-26": 799,
+      "2021-12-15": 784,
+      "2021-12-04": 798,
+      "2021-11-23": 798,
+      "2021-11-12": 789,
+      "2021-11-01": 764,
+      "2021-10-21": 768,
+      "2021-10-10": 758
+    }
+  },
+  "savings": {
+    "card_id": 5,
+    "title": "Savings",
+    "description": "Sum of all connected savings accounts.",
+    "current": 15866.2,
+    "as_of_date": "2022-01-28",
+    "historical": {
+      "2022-01-17": 13977.11,
+      "2022-01-06": 13357.57,
+      "2021-12-26": 11462.19,
+      "2021-12-15": 10649.77,
+      "2021-12-04": 9336.45,
+      "2021-11-23": 9982.15,
+      "2021-11-12": 10338.27
+    }
+  },
+  "home_value": {
+    "card_id": 6,
+    "title": "Home Value",
+    "description": "Refers to the worth of a piece of real estate based on AVM estimates.",
+    "current": 461720.93,
+    "as_of_date": "2022-01-28",
+    "historical": {
+      "2022-01-17": 462519.02,
+      "2022-01-06": 455134.15,
+      "2021-12-26": 447477.18,
+      "2021-12-15": 448718.92
+    }
+  },
+  "retirement": {
+    "card_id": 7,
+    "title": "Retirment Savings",
+    "description": "All savings accounts with tax advantages that a member can use to save and invest long-term for their retirement.",
+    "current": 12778.99,
+    "as_of_date": "2022-01-28",
+    "historical": {
+      "2022-01-17": 11535.62,
+      "2022-01-06": 12285.55,
+      "2021-12-26": 9548.24,
+      "2021-12-15": 9926.57,
+      "2021-12-04": 9755.21,
+      "2021-11-23": 8517.22,
+      "2021-11-12": 6899.49,
+      "2021-11-01": 7708.92
+    }
+  },
+  "retail_debt": {
+    "card_id": 8,
+    "title": "Retail Debt",
+    "description": "Sum of all debt accumulated on retail accounts.",
+    "current": 10247.79,
+    "as_of_date": "2022-01-28",
+    "historical": {
+      "2022-01-17": 10264.22,
+      "2022-01-06": 10324.03,
+      "2021-12-26": 10704.16,
+      "2021-12-15": 10872.99,
+      "2021-12-04": 10488.08,
+      "2021-11-23": 10241.84,
+      "2021-11-12": 9548.85,
+      "2021-11-01": 8567.75
+    }
+  },
+  "debt_income_ratio": {
+    "card_id": 9,
+    "title": "Debt Income Ratio",
+    "description": "Sum of all monthly revolving debt payments divided by monthly income.",
+    "score": 67,
+    "bucket": "Poor",
+    "as_of_date": "2022-01-28",
+    "historical": {
+      "2022-01-17": 69,
+      "2022-01-06": 70,
+      "2021-12-26": 71,
+      "2021-12-15": 73,
+      "2021-12-04": 69,
+      "2021-11-23": 70,
+      "2021-11-12": 66
+    }
+  },
+  "credit_usage": {
+    "card_id": 10,
+    "title": "Credit Utilization",
+    "description": "Sum of outstanding retail debt balance divided by the total amount of retail credit allocated.",
+    "total_credit": 15000,
+    "total_revolving_debt": 900.0,
+    "current": 6,
+    "as_of_date": "2022-01-28",
+    "bucket": "Very Good",
+    "historical": {
+      "2022-01-17": 5,
+      "2022-01-06": 5,
+      "2021-12-26": 7,
+      "2021-12-15": 5,
+      "2021-12-04": 5,
+      "2021-11-23": 5,
+      "2021-11-12": 5,
+      "2021-11-01": 7,
+      "2021-10-21": 5,
+      "2021-10-10": 5
+    }
+  },
+  "total_accounts": {
+    "card_id": 11,
+    "title": "Total Accounts",
+    "description": "Number of Open and Closed accounts that affect credit.",
+    "open_accounts": 2,
+    "closed_accounts": 3,
+    "as_of_date": "2022-01-28",
+    "bucket": "Good"
+  }
+}

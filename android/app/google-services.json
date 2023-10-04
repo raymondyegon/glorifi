@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "844451946578",
+    "project_id": "glorifi-f9440",
+    "storage_bucket": "glorifi-f9440.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844451946578:android:e4590f627259f1872a3f8b",
+        "android_client_info": {
+          "package_name": "com.glorifi.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "844451946578-4i7bpglmprcl8hota49tmc339ugq84em.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSOR0Rt1V-sU_5cCFIIfqkv04cO2VBqEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "844451946578-4i7bpglmprcl8hota49tmc339ugq84em.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "844451946578-k027teaf062vgg1luv62fsjbktdit217.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.glorifi.temp2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
