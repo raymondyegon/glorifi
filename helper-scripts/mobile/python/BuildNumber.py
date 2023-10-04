@@ -7,7 +7,13 @@ projectNumber="844451946578"
 
 # Use the service object 'fbdist' to call the REST API methods defined https://firebase.google.com/docs/reference/app-distribution/rest/v1/projects.apps.releases/list and retrieve the response.
 
-response=Oauth.fbdist.projects().apps().releases().list(parent="projects/"+projectNumber+"/apps/"+appId).execute()
+response = (
+    Oauth.fbdist.projects()
+    .apps()
+    .releases()
+    .list(parent=f"projects/{projectNumber}/apps/{appId}")
+    .execute()
+)
 
 
 # Response has the schema of an object ( dictionary formed of key:value pairs where value = string / list / dict / etc).
